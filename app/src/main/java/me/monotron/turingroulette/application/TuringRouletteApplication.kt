@@ -5,8 +5,8 @@ import android.app.Application
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
-import me.monotron.gistbot.application.dependencies.ApplicationComponent
-import me.monotron.gistbot.application.dependencies.DaggerApplicationComponent
+import me.monotron.turingroulette.application.dependencies.ApplicationComponent
+import me.monotron.turingroulette.application.dependencies.DaggerApplicationComponent
 import javax.inject.Inject
 
 class TuringRouletteApplication : Application(), HasActivityInjector {

@@ -6,13 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".startup.StartupActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:layout_margin="@dimen/margin_small"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/startup_start_chatting_button">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/turing_roulette_startup_icon_size"
+            android:src="@drawable/ic_turing_roulette_icon_fg" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/app_name"
+            style="@style/StartupHeaderStyle" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/startup_explanation_text" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/startup_health_check_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        app:layout_constraintBottom_toTopOf="@id/startup_start_chatting_button" />
+
+    <Button
+        android:id="@+id/startup_start_chatting_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorButtonText"
+        android:layout_margin="@dimen/margin_small"
+        android:text="@string/start_chatting_button_text"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

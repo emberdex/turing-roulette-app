@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">TuringRoulette</string>
+    <string name="app_name">Turing Roulette</string>
+    <string name="start_chatting_button_text">Start Chatting</string>
+    <string name="startup_explanation_text">Tap the button below and you will be connected to a human or a robot. Talk with them for a bit, and guess whether your participant was a human or a robot at the end.</string>
 </resources>

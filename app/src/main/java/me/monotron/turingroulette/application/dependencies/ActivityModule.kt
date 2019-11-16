@@ -1,4 +1,4 @@
-package me.monotron.gistbot.application.dependencies
+package me.monotron.turingroulette.application.dependencies
 
 import dagger.Module
 import dagger.android.AndroidInjector
