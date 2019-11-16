@@ -1,20 +1,33 @@
 package me.monotron.turingroulette.startup
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import me.monotron.turingroulette.repository.TuringRepository
+import retrofit2.Response
+import javax.inject.Inject
 
-class StartupViewModel : ViewModel() {
+class StartupViewModel @Inject constructor(val turingRepository: TuringRepository) : ViewModel(), LifecycleOwner {
 
     var state: MutableLiveData<StartupViewState> = MutableLiveData()
 
-    // TODO: Implement health check service
+    private var lifecycleRegistry: LifecycleRegistry = LifecycleRegistry(this)
 
-    fun handleStartChattingButtonClicked() {
+    init {
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
+    }
+
+    fun handleStartChattingButtonClicked(): LiveData<Boolean> {
 
         state.value = StartupViewState.ServiceHealthCheck
 
-        // TODO: do the actual health check, dipshit
+        return liveData(Dispatchers.IO) {
+            val returned = turingRepository.performHealthCheck()
 
-        
+            emit(returned.isSuccessful)
+        }
+    }
+
+    override fun getLifecycle(): Lifecycle {
+        return lifecycleRegistry
     }
 }

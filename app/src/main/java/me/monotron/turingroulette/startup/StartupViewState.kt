@@ -4,6 +4,5 @@ open class StartupViewState {
     object Initial : StartupViewState()
     object ServiceHealthCheck : StartupViewState()
     object ServiceHealthCheckSucceeded : StartupViewState()
-
-    class ServiceHealthCheckFailed(val exception: Throwable) : StartupViewState()
+    object ServiceHealthCheckFailed : StartupViewState()
 }
