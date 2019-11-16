@@ -3,7 +3,6 @@ package me.monotron.turingroulette.startup
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import me.monotron.turingroulette.repository.TuringRepository
-import retrofit2.Response
 import javax.inject.Inject
 
 class StartupViewModel @Inject constructor(val turingRepository: TuringRepository) : ViewModel(), LifecycleOwner {
@@ -23,7 +22,10 @@ class StartupViewModel @Inject constructor(val turingRepository: TuringRepositor
         return liveData(Dispatchers.IO) {
             val returned = turingRepository.performHealthCheck()
 
-            emit(returned.isSuccessful)
+            // TODO: change this back when there's an actual API to talk to
+            // emit(returned.isSuccessful)
+
+            emit(true)
         }
     }
 

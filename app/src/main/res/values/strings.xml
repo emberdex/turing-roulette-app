@@ -5,4 +5,7 @@
     <string name="network_error_dialog_title">Network error</string>
     <string name="network_error_dialog_text">The Turing Service is not currently reachable. Check your device\'s Internet connection, or try again later.</string>
     <string name="dialog_ok_button">OK</string>
+    <string name="chat_connecting_to_server">Connecting to chat server...</string>
+    <string name="chat_error_dialog_text">Something went wrong when trying to join a chat room. Check your device\'s Internet connection, or try again later.</string>
+    <string name="chat_waiting_for_stranger">Waiting for someone to join...</string>
 </resources>

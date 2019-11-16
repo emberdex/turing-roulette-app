@@ -11,7 +11,7 @@ abstract class BaseFragment : Fragment(), HasSupportFragmentInjector {
 
     @Inject lateinit var fragmentDispatchingInjector: DispatchingAndroidInjector<Fragment>
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
 
         AndroidSupportInjection.inject(this)
 

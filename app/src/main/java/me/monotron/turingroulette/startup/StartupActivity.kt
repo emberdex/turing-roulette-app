@@ -3,6 +3,7 @@ package me.monotron.turingroulette.startup
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.INVISIBLE
@@ -13,9 +14,11 @@ import androidx.lifecycle.observe
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import me.monotron.turingroulette.R
+import me.monotron.turingroulette.base.BaseActivity
+import me.monotron.turingroulette.chat.ChatActivity
 import javax.inject.Inject
 
-class StartupActivity : AppCompatActivity() {
+class StartupActivity : BaseActivity() {
 
     @Inject lateinit var viewModel: StartupViewModel
 
@@ -62,6 +65,12 @@ class StartupActivity : AppCompatActivity() {
             .create().show()
     }
 
+    private fun showChatActivity() {
+
+        val intent = Intent(this, ChatActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun onViewStateChanged(newState: StartupViewState) {
         when (newState) {
             is StartupViewState.ServiceHealthCheck -> {
@@ -70,6 +79,7 @@ class StartupActivity : AppCompatActivity() {
 
             is StartupViewState.ServiceHealthCheckSucceeded -> {
                 setHealthCheckSpinnerVisibility(INVISIBLE)
+                showChatActivity()
             }
 
             is StartupViewState.ServiceHealthCheckFailed -> {
