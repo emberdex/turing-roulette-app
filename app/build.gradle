@@ -13,6 +13,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+        buildConfigField("String", "twilioAuthToken", properties.getProperty("twilio.authToken"))
+        buildConfigField("String", "twilioAccountSid", properties.getProperty("twilio.accountSid"))
     }
     buildTypes {
         release {
@@ -27,6 +33,9 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
     implementation 'com.google.android.material:material:1.2.0-alpha01'
+
+    // Twilio Chat
+    implementation "com.twilio:chat-android:3.1.1"
 
     // Application dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

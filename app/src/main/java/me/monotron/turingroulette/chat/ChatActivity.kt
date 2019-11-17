@@ -36,10 +36,9 @@ class ChatActivity : BaseActivity() {
 
         // TODO: remove
         val messages: List<UserMessage> = listOf(
-            UserMessage(RECEIVED, "sup nerd"),
-            UserMessage(RECEIVED, "it might not be the prettiest thing I've ever seen but it totally works :D"),
-            UserMessage(SENT, "hooray!"),
-            UserMessage(SENT, "Here's a really long message to see how it handles large amounts of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+            UserMessage(SENT, "Hello!"),
+            UserMessage(RECEIVED, "OK boomer"),
+            UserMessage(RECEIVED, "This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs")
         )
 
         messageRecycler = message_recycler_view as RecyclerView
@@ -48,8 +47,11 @@ class ChatActivity : BaseActivity() {
         messageRecycler.adapter = messageListAdapter
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+
+        super.onResume()
+
+        viewModel.initialiseTwilio(applicationContext)
     }
 
     private fun onViewStateChanged(state: ChatViewState) {

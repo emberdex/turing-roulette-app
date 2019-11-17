@@ -20,12 +20,9 @@ class StartupViewModel @Inject constructor(val turingRepository: TuringRepositor
         state.value = StartupViewState.ServiceHealthCheck
 
         return liveData(Dispatchers.IO) {
-            // val returned = turingRepository.performHealthCheck()
+            val returned = turingRepository.performHealthCheck()
 
-            // TODO: change this back when there's an actual API to talk to
-            // emit(returned.isSuccessful)
-
-            emit(true)
+            emit(returned.isSuccessful)
         }
     }
 

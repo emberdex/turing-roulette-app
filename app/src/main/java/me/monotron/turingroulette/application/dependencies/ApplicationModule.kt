@@ -3,6 +3,7 @@ package me.monotron.turingroulette.application.dependencies
 import dagger.Module
 import dagger.Provides
 import me.monotron.turingroulette.api.TuringAPI
+import me.monotron.turingroulette.repository.TwilioRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -10,7 +11,7 @@ import javax.inject.Singleton
 @Module
 class ApplicationModule {
 
-    private val baseUrl: String = "http://api.turing-roulette.tech/"
+    private val baseUrl: String = "http://10.3.214.213:5000/"
 
     @Provides
     @Singleton
@@ -27,5 +28,12 @@ class ApplicationModule {
     fun provideTuringApi(retrofit: Retrofit): TuringAPI {
 
         return retrofit.create(TuringAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTwilioRepository(api: TuringAPI): TwilioRepository {
+
+        return TwilioRepository(api)
     }
 }
