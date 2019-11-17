@@ -35,7 +35,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha01'
 
     // Twilio Chat
-    implementation "com.twilio:chat-android:3.1.1"
+    implementation "com.twilio:chat-android:4.2.5"
 
     // Application dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

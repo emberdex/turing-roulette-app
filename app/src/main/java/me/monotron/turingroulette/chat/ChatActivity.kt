@@ -41,11 +41,25 @@ class ChatActivity : BaseActivity() {
         messageRecycler.adapter = messageListAdapter
     }
 
-    override fun onResume() {
+    override fun onStart() {
+        super.onStart()
 
+        chat_send_message_button.setOnClickListener {
+            sendMessage(chat_text_box.text.toString())
+        }
+    }
+
+    override fun onResume() {
         super.onResume()
 
         viewModel.initialiseTwilio(applicationContext)
+    }
+
+    private fun sendMessage(message: String) {
+        viewModel.sendMessage(message)
+
+        messageListAdapter.messageList.add(UserMessage(SENT, message))
+        messageListAdapter.notifyDataSetChanged()
     }
 
     private fun onViewStateChanged(state: ChatViewState) {
@@ -82,9 +96,6 @@ class ChatActivity : BaseActivity() {
             }
 
             is ChatViewState.MessageReceived -> {
-
-                Log.i("Toby", "made it to activity")
-
                 messageListAdapter.messageList.add(UserMessage(RECEIVED, state.message.messageBody))
                 messageListAdapter.notifyDataSetChanged()
             }

@@ -44,6 +44,10 @@ class TwilioRepository @Inject constructor(
         }
     })
 
+    val messageSendListener: CallbackListener<Message> = (object : CallbackListener<Message>() {
+        override fun onSuccess(p0: Message?) {}
+    })
+
     val messageListener: ChannelListener = (object : ChannelListener {
         override fun onMemberDeleted(p0: Member?) {}
         override fun onTypingEnded(p0: Channel?, p1: Member?) {}
@@ -55,7 +59,10 @@ class TwilioRepository @Inject constructor(
         override fun onMemberUpdated(p0: Member?, p1: Member.UpdateReason?) {}
 
         override fun onMessageAdded(p0: Message?) {
-            state.value = ChatState.MessageReceived(p0!!)
+
+            if(p0?.member?.identity != token?.identity) {
+                state.value = ChatState.MessageReceived(p0!!)
+            }
         }
     })
 
@@ -114,5 +121,9 @@ class TwilioRepository @Inject constructor(
                 throw RuntimeException("Failed to fetch Twilio SIDs.")
             }
         }
+    }
+
+    fun sendMessage(message: String) {
+        channel.messages.sendMessage(Message.options().withBody(message), messageSendListener)
     }
 }

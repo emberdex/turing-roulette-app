@@ -1,7 +1,6 @@
 package me.monotron.turingroulette.chat
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import me.monotron.turingroulette.repository.TwilioRepository
 import javax.inject.Inject
@@ -28,6 +27,10 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun sendMessage(message: String) {
+        twilioRepository.sendMessage(message)
+    }
+
     private fun handleRepositoryConnectionState(state: ChatState) {
         when(state) {
             is ChatState.Connecting -> {
@@ -35,7 +38,7 @@ class ChatViewModel @Inject constructor(
             }
 
             is ChatState.ChannelJoined -> {
-                this.state.value = ChatViewState.WaitingForStranger
+                this.state.value = ChatViewState.EstablishingChatSessionSuccess
             }
 
             is ChatState.Error -> {
@@ -43,9 +46,6 @@ class ChatViewModel @Inject constructor(
             }
 
             is ChatState.MessageReceived -> {
-
-                Log.i("Toby", "made it to vm")
-
                 this.state.value = ChatViewState.MessageReceived(state.message)
             }
         }
