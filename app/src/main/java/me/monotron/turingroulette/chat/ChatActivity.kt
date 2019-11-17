@@ -25,8 +25,6 @@ class ChatActivity : BaseActivity() {
         })
 
         setContentView(R.layout.activity_chat)
-
-        viewModel.state.value = ChatViewState.WaitingForStranger
     }
 
     override fun onStart() {
@@ -36,7 +34,7 @@ class ChatActivity : BaseActivity() {
     private fun onViewStateChanged(state: ChatViewState) {
         when (state) {
             is ChatViewState.EstablishingChatSession -> {
-                snackbar = Snackbar.make(chat_root_layout, R.string.chat_connecting_to_server, Snackbar.LENGTH_INDEFINITE)
+                snackbar = Snackbar.make(root_chat_layout, R.string.chat_connecting_to_server, Snackbar.LENGTH_INDEFINITE)
                 snackbar?.show()
             }
 
@@ -58,7 +56,7 @@ class ChatActivity : BaseActivity() {
             }
 
             is ChatViewState.WaitingForStranger -> {
-                snackbar = Snackbar.make(chat_root_layout, R.string.chat_waiting_for_stranger, Snackbar.LENGTH_INDEFINITE)
+                snackbar = Snackbar.make(root_chat_layout, R.string.chat_waiting_for_stranger, Snackbar.LENGTH_INDEFINITE)
                 snackbar?.show()
             }
 
