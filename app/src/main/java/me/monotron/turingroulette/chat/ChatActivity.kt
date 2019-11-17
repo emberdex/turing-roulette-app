@@ -2,6 +2,7 @@ package me.monotron.turingroulette.chat
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,15 +35,8 @@ class ChatActivity : BaseActivity() {
 
         setContentView(R.layout.activity_chat)
 
-        // TODO: remove
-        val messages: List<UserMessage> = listOf(
-            UserMessage(SENT, "Hello!"),
-            UserMessage(RECEIVED, "OK boomer"),
-            UserMessage(RECEIVED, "This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs This is a very quick test of how it handles long paragraphs")
-        )
-
         messageRecycler = message_recycler_view as RecyclerView
-        messageListAdapter = MessageListAdapter(this, messages)
+        messageListAdapter = MessageListAdapter(this, arrayListOf())
         messageRecycler.layoutManager = LinearLayoutManager(this)
         messageRecycler.adapter = messageListAdapter
     }
@@ -85,6 +79,14 @@ class ChatActivity : BaseActivity() {
 
             is ChatViewState.StrangerHasConnected -> {
                 snackbar?.dismiss()
+            }
+
+            is ChatViewState.MessageReceived -> {
+
+                Log.i("Toby", "made it to activity")
+
+                messageListAdapter.messageList.add(UserMessage(RECEIVED, state.message.messageBody))
+                messageListAdapter.notifyDataSetChanged()
             }
         }
     }

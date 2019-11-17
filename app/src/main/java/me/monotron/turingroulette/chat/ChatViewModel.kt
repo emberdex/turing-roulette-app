@@ -1,21 +1,57 @@
 package me.monotron.turingroulette.chat
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 import me.monotron.turingroulette.repository.TwilioRepository
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
     val twilioRepository: TwilioRepository
-    // TODO: inject the Twilio Chat SDK components as required
-): ViewModel() {
+): ViewModel(), LifecycleOwner {
+
+    private var lifecycleRegistry: LifecycleRegistry = LifecycleRegistry(this)
 
     var state: MutableLiveData<ChatViewState> = MutableLiveData()
+
+    init {
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
+    }
 
     fun initialiseTwilio(applicationContext: Context) {
 
         twilioRepository.setApplicationContext(applicationContext)
         twilioRepository.initialiseChatRoom()
+
+        twilioRepository.state.observeForever {
+            handleRepositoryConnectionState(it)
+        }
+    }
+
+    private fun handleRepositoryConnectionState(state: ChatState) {
+        when(state) {
+            is ChatState.Connecting -> {
+                this.state.value = ChatViewState.EstablishingChatSession
+            }
+
+            is ChatState.ChannelJoined -> {
+                this.state.value = ChatViewState.WaitingForStranger
+            }
+
+            is ChatState.Error -> {
+                this.state.value = ChatViewState.EstablishingChatSessionFailed
+            }
+
+            is ChatState.MessageReceived -> {
+
+                Log.i("Toby", "made it to vm")
+
+                this.state.value = ChatViewState.MessageReceived(state.message)
+            }
+        }
+    }
+
+    override fun getLifecycle(): Lifecycle {
+        return lifecycleRegistry
     }
 }

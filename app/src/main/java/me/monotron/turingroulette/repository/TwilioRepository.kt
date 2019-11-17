@@ -2,11 +2,13 @@ package me.monotron.turingroulette.repository
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.twilio.chat.*
 import kotlinx.coroutines.runBlocking
 import me.monotron.turingroulette.api.TuringAPI
 import me.monotron.turingroulette.api.responses.Identity
 import me.monotron.turingroulette.api.responses.TwilioSids
+import me.monotron.turingroulette.chat.ChatState
 import javax.inject.Inject
 
 // nothing is sacred about this God forsaken code
@@ -20,11 +22,18 @@ class TwilioRepository @Inject constructor(
 
     lateinit var client: ChatClient
     lateinit var channel: Channel
+    var state: MutableLiveData<ChatState> = MutableLiveData()
 
     val clientCallbackListener: CallbackListener<ChatClient> = (object : CallbackListener<ChatClient>() {
         override fun onSuccess(p0: ChatClient?) {
             client = p0!!
             initialiseChannel()
+        }
+
+        override fun onError(errorInfo: ErrorInfo?) {
+            super.onError(errorInfo)
+
+            state.postValue(ChatState.Error)
         }
     })
 
@@ -46,12 +55,14 @@ class TwilioRepository @Inject constructor(
         override fun onMemberUpdated(p0: Member?, p1: Member.UpdateReason?) {}
 
         override fun onMessageAdded(p0: Message?) {
-            Log.i("TOBY", p0?.messageBody ?: "Message was null")
+            state.value = ChatState.MessageReceived(p0!!)
         }
     })
 
     val statusListener: StatusListener = (object : StatusListener() {
-        override fun onSuccess() {}
+        override fun onSuccess() {
+            state.postValue(ChatState.ChannelJoined)
+        }
     })
 
     fun setApplicationContext(application: Context) {
@@ -59,13 +70,9 @@ class TwilioRepository @Inject constructor(
     }
 
     fun initialiseChatRoom() {
+
         refreshToken()
         getTwilioSids()
-
-        Log.i("TOBY", token?.token ?: "Token was null")
-        Log.i("TOBY", token?.identity ?: "Identity was null")
-        Log.i("TOBY", twilioSids?.channelSid ?: "channelSid was null")
-        Log.i("TOBY", twilioSids?.serviceSid ?: "serviceSid was null")
 
         ChatClient.create(applicationContext!!, token?.token!!, ChatClient.Properties.Builder().createProperties(), clientCallbackListener)
     }
@@ -76,6 +83,8 @@ class TwilioRepository @Inject constructor(
     }
 
     fun initialiseMessageListener() {
+
+        Log.i("Toby", twilioSids?.channelSid ?: "null")
 
         channel.join(statusListener)
         channel.addListener(messageListener)

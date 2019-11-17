@@ -9,7 +9,7 @@ import me.monotron.turingroulette.R
 import me.monotron.turingroulette.chat.MessageType
 import me.monotron.turingroulette.chat.UserMessage
 
-class MessageListAdapter(private var context: Context, var messageList: List<UserMessage>) :
+class MessageListAdapter(private var context: Context, var messageList: ArrayList<UserMessage>) :
     RecyclerView.Adapter<MessageHolder>() {
 
     override fun getItemCount(): Int {
