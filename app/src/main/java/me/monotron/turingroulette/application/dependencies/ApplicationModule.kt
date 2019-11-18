@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Module
 class ApplicationModule {
 
-    private val baseUrl: String = "http://10.3.214.213:5000/"
+    private val baseUrl: String = "http://api.turing-roulette.tech/"
 
     @Provides
     @Singleton

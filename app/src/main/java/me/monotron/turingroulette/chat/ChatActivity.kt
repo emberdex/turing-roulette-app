@@ -60,6 +60,8 @@ class ChatActivity : BaseActivity() {
 
         messageListAdapter.messageList.add(UserMessage(SENT, message))
         messageListAdapter.notifyDataSetChanged()
+
+        chat_text_box.setText("")
     }
 
     private fun onViewStateChanged(state: ChatViewState) {
